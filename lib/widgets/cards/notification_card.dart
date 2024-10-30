@@ -30,8 +30,8 @@ class NotificationCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                            Mainbutton(text: "No, cancel", 
-                            textcolor: Colors.black,
+            Mainbutton(text: "No, cancel", 
+            textcolor: Colors.black,
                             strokeColor: Colors.black,
                             backgroundColor: Colors.white,
 

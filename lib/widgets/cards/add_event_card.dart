@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:dashbord/helper/const.dart';
 import 'package:dashbord/provider/event_provider.dart';
@@ -20,19 +20,19 @@ class _AddEventCardState extends State<AddEventCard> {
     final TextEditingController _title = TextEditingController();
     final TextEditingController _Description = TextEditingController();
     final TextEditingController _DateController = TextEditingController();
-    final TextEditingController _ImageController = TextEditingController();
+    // final TextEditingController _ImageController = TextEditingController();
 
 
       GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
       bool isAvailable = false;
-      File?  _picker ;
+      // File?  _picker ;
       final picker  = ImagePicker();
           Future getImage() async {
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedImage != null) {
-        _picker = File(pickedImage.path);
+        // _picker = File(pickedImage.path);
       } else {
         print('No image selected.');
       }
@@ -59,6 +59,7 @@ class _AddEventCardState extends State<AddEventCard> {
         ),
           ],  
         ),  
+
         child: Form(
                     key: _formKey,
         
@@ -66,10 +67,14 @@ class _AddEventCardState extends State<AddEventCard> {
           child: Column(
           
         children: [
+                  SizedBox(height: 20,),
+
           TextForm(labelText: "Event Title",
           controller: _title,
           
           ),
+                  SizedBox(height: 20,),
+
              GestureDetector(
                           onTap: () async {
                             if (!isAvailable) {
@@ -84,6 +89,7 @@ class _AddEventCardState extends State<AddEventCard> {
                               }
                             }
                           },
+
                           child: TextForm(
                               labelText: "Event Date",
                               enabled: false,
@@ -96,32 +102,32 @@ class _AddEventCardState extends State<AddEventCard> {
                                 return null;
                               }),
                         ),
-        
+        SizedBox(height: 20,),
            TextForm(labelText: "Event Description",
           controller: _Description,
           
           ),
           
           
-           GestureDetector(
+          //  GestureDetector(
         
-            onTap: (){
-              getImage();
-            },
-           child: _picker == null ? Container(
-            height: getScreenSize(context).height * 0.1,
-            width: getScreenSize(context).width * 0.9,
+          //   onTap: (){
+          //     getImage();
+          //   },
+          //  child: _picker == null ? Container(
+          //   height: getScreenSize(context).height * 0.1,
+          //   width: getScreenSize(context).width * 0.9,
           
-            child:TextForm(labelText: "Event Image",
-            enabled: false,
-            controller: _ImageController,)
-           ) : Image.file(_picker!)
+          //   child:TextForm(labelText: "Event Image",
+          //   enabled: false,
+          //   controller: _ImageController,)
+          //  ) : Image.file(_picker!)
            
         
              
              
         
-           ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 40),
             child: Row(
@@ -137,7 +143,7 @@ class _AddEventCardState extends State<AddEventCard> {
                       eventConsumer.event.name = _title.text;
                       eventConsumer.event.description = _Description.text;
                       eventConsumer.event.date = _DateController.text;
-                      
+
                       Provider.of<EventProvider>(context, listen: false).addEvent();
                     }
                   },)),

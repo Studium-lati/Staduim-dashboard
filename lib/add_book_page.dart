@@ -1,3 +1,4 @@
+import 'package:dashbord/checkout_page.dart';
 import 'package:dashbord/helper/const.dart';
 import 'package:dashbord/widgets/cards/stadium_card.dart';
 import 'package:dashbord/widgets/cards/totalstatisics_card.dart';
@@ -69,7 +70,13 @@ class BookingsManagementPage extends StatelessWidget {
             Text('Bookings Table', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         Container(
             width:getScreenSize(context).width*0.44,
-            child: Mainbutton(text: "Add New Booking", ontap: (){})),
+            child: Mainbutton(text: "Add New Booking", ontap: (){
+                Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CheckoutPage()));
+
+            })),
             SizedBox(height: 16),
 
            StadiumCard(

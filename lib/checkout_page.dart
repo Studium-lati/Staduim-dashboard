@@ -1,8 +1,8 @@
 import 'package:dashbord/helper/const.dart';
+import 'package:dashbord/provider/reservations_provider.dart';
 import 'package:dashbord/widgets/clickables/main_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 
 class CheckoutPage extends StatefulWidget {
@@ -18,15 +18,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
-   
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Booking"),
-            centerTitle: true,
-          ),
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+    return Consumer<ReservationsProvider>(
+        builder: (context, reservationsConsumer, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Booking"),
+          centerTitle: true,
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -41,10 +43,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ),
                   ),
                   CalendarDatePicker(
+
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now(),
                       lastDate: DateTime(2100),
-                      onDateChanged: (onDateChanged) {}),
+                      onDateChanged: (onDateChanged) {
+                        reservationsConsumer.reservationsModel.date =
+                            onDateChanged;
+                      }),
                   Padding(
                     padding: const EdgeInsets.only(left: 20, bottom: 15),
                     child: Text(
@@ -60,24 +66,48 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     child: GestureDetector(
                       onTap: () {
                         showTimePicker(
-                                context: context, initialTime: TimeOfDay.now())
-                            .then((onValue) {
-                           
-                            if (onValue != null &&
-                                (onValue.hour > TimeOfDay.now().hour ||
-                                    (onValue.hour == TimeOfDay.now().hour &&
-                                        onValue.minute > TimeOfDay.now().minute))) {
-                              checkinTime = onValue;
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      Text('Check-in time must be in the future'),
-                                ),
+                          
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(
+                            DateTime.now().add(
+                              Duration(hours: 1),
+                            ),
+                          ),
+                          builder: (BuildContext context, Widget? child) {
+                            return MediaQuery(
+                              data: MediaQuery.of(context).copyWith(
+                                alwaysUse24HourFormat: false,
+                              ),
+                              child: child!,
+                            );
+                          },
+                        ).then((onValue) {
+                          setState(() {
+                            if (onValue != null) {
+                              final now = DateTime.now();
+                              final selectedDate =
+                                  reservationsConsumer.reservationsModel.date;
+                              final selectedDateTime = DateTime(
+                                selectedDate!.year,
+                                selectedDate.month,
+                                selectedDate.day,
+                                onValue.hour,
+                                onValue.minute,
                               );
+              
+                              if (selectedDateTime.isAfter(now)) {
+                                checkinTime = onValue;
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Check-in time must be in the future'),
+                                  ),
+                                );
+                              }
                             }
                           });
-                        
+                        });
                       },
                       child: TextFormField(
                         enabled: false,
@@ -99,13 +129,28 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     child: GestureDetector(
                       onTap: () {
                         showTimePicker(
-                                context: context, initialTime: TimeOfDay.now())
-                            .then((onValue) {
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(
+                            DateTime.now().add(
+                              Duration(hours: 2),
+                            ),
+                          ),
+                          builder: (BuildContext context, Widget? child) {
+                            return MediaQuery(
+                              data: MediaQuery.of(context).copyWith(
+                                alwaysUse24HourFormat: false,
+                              ),
+                              child: child!,
+                            );
+                          },
+                        ).then((onValue) {
+                          setState(() {
                             if (onValue != null &&
                                 (checkinTime == null ||
                                     onValue.hour > checkinTime!.hour ||
                                     (onValue.hour == checkinTime!.hour &&
                                         onValue.minute > checkinTime!.minute))) {
+                              checkoutTime = onValue;
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -114,7 +159,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 ),
                               );
                             }
-                         
+                          });
                         });
                       },
                       child: TextFormField(
@@ -143,7 +188,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         child: Mainbutton(
                           text: "Book know",
                           ontap: () {
-                       
+                            final checkinDateTime = DateTime(
+                              reservationsConsumer.reservationsModel.date!.year,
+                              reservationsConsumer.reservationsModel.date!.month,
+                              reservationsConsumer.reservationsModel.date!.day,
+                              checkinTime!.hour,
+                              checkinTime!.minute,
+                            );
+              
+                            final checkoutDateTime = DateTime(
+                              reservationsConsumer.reservationsModel.date!.year,
+                              reservationsConsumer.reservationsModel.date!.month,
+                              reservationsConsumer.reservationsModel.date!.day,
+                              checkoutTime!.hour,
+                              checkoutTime!.minute,
+                            );
+              
+                            final duration =
+                                checkoutDateTime.difference(checkinDateTime);
+                            final hours = duration.inHours;
+              
+                            reservationsConsumer.reservationsModel.duration =
+                                '$hours';
+                            reservationsConsumer.reservationsModel.time =
+                                checkinTime!.hour.toString();
+              
+                                  Provider.of<ReservationsProvider>(context, listen: false)
+                            .reserveStadium();
                           },
                           textsize: 16,
                         )),
@@ -152,8 +223,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             ),
           ),
-        
-    
-    );
+        ),
+      );
+    });
   }
 }

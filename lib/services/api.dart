@@ -32,7 +32,7 @@ class Api {
 
     final response = await http.post(
 
-      Uri.parse('http://stadium.test/api/events/create$endpoint'),
+      Uri.parse(BASE_URL+endpoint),
 
       body: jsonEncode(data),
 
@@ -43,8 +43,39 @@ class Api {
     return response;
 
   }
+  
+  Future<bool> refreshToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? oldToken = prefs.getString('token');
 
+    final response = await http.post(
+      Uri.parse('${BASE_URL}refresh'),
+      headers: {
+        "Accept": 'application/json',
+        "content-type": "application/json",
+        "Authorization": "Bearer $oldToken"
+      },
+    );
+
+    if (kDebugMode) {
+      print('POST auth/refresh');
+      print('Response: ${response.body}');
+      print("Status Code: ${response.statusCode}");
+    }
+    if (response.statusCode == 200) {
+      var decodedToken = json.decode(response.body)['access_token'];
+      prefs.setString('token', decodedToken);
+      return true;
+    }
+    if (kDebugMode) {
+      print('Failed to refresh token');
+      print('Response: ${response.body}');
+    }
+    return false;
+  }
 }
+
+
 
   
 
