@@ -90,7 +90,7 @@ class _NotificationCardState extends State<NotificationCard> {
                   ontap: () {
                     setState(() {
                       Provider.of<ReservationsProvider>(context, listen: false)
-                          .approveReservation(widget.reservation.stadiumId.toString());
+                          .approveReservation(widget.reservation.id.toString());
                       Provider.of<ReservationsProvider>(context, listen: false)
                           .fetchReservationsApproved( widget.reservation.stadiumId.toString());
                     });

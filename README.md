@@ -5,6 +5,8 @@ A new Flutter project.
 ## Getting Started
 
 # Owner App for Stadium Management
+username:0911716170
+password:12345678
 
 ## Overview
 The **Owner App** enables stadium owners to manage their listings, view reservations, and update availability. Although currently functional, the app is still a work in progress and will be further developed this week to complete the remaining features.
