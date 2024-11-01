@@ -1,57 +1,58 @@
 import 'dart:convert';
 
 class EventModel {
-    String? name;
-    String ?description;
-    String ?date;
-    String ?stadiumId;
-    int ?userId;
-    String ?status;
-    dynamic image;
-    DateTime ?updatedAt;
-    DateTime ?createdAt;
-    int? id;
+  int id;
+  String name;
+  String description;
+  String date;
+  String image;
+  String status;
+  int stadiumId;
+  int userId;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-    EventModel({
-         this.name,
-         this.description,
-         this.date,
-         this.stadiumId,
-         this.userId,
-         this.status,
-         this.image,
-         this.updatedAt,
-         this.createdAt,
-         this.id,
-    });
+  EventModel({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.date,
+    required this.image,
+    required this.status,
+    required this.stadiumId,
+    required this.userId,
+    required this.createdAt,
+    required this.updatedAt,
+  });
 
-    factory EventModel.fromRawJson(String str) => EventModel.fromJson(json.decode(str));
+  factory EventModel.fromRawJson(String str) =>
+      EventModel.fromJson(json.decode(str));
 
-    String toRawJson() => json.encode(toJson());
+  String toRawJson() => json.encode(toJson());
 
-    factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
+  factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
+        id: json["id"],
         name: json["name"],
         description: json["description"],
         date: json["date"],
+        image: json["image"],
+        status: json["status"],
         stadiumId: json["stadium_id"],
         userId: json["user_id"],
-        status: json["status"],
-        image: json["image"],
-        updatedAt: DateTime.parse(json["updated_at"]),
         createdAt: DateTime.parse(json["created_at"]),
-        id: json["id"],
-    );
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
         "description": description,
         "date": date,
+        "image": image,
+        "status": status,
         "stadium_id": stadiumId,
         "user_id": userId,
-        "status": status,
-        "image": image,
-        "updated_at": updatedAt?.toIso8601String(),
-        "created_at": createdAt?.toIso8601String(),
-        "id": id,
-    };
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+      };
 }

@@ -1,9 +1,9 @@
-import 'package:dashbord/add_book_page.dart';
-import 'package:dashbord/add_event_page.dart';
+import 'package:dashbord/pages/main_page/add_book_page.dart';
+import 'package:dashbord/pages/main_page/add_event_page.dart';
 import 'package:dashbord/helper/const.dart';
-import 'package:dashbord/home_page.dart';
-import 'package:dashbord/notifications_page.dart';
-import 'package:dashbord/profile_page.dart';
+import 'package:dashbord/pages/main_page/home_page.dart';
+import 'package:dashbord/pages/main_page/notifications_page.dart';
+import 'package:dashbord/pages/auth_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
@@ -20,16 +20,16 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             child: _selectedIndex == 0
-                ? HomePage()
+                ? const HomePage()
                 : _selectedIndex == 1
-                    ?NotificationsPage ()
+                    ?const NotificationsPage ()
                     : _selectedIndex == 2
-                        ? BookingsManagementPage()
+                        ? const BookingsManagementPage()
                         : _selectedIndex == 3
-                            ? AddEvent()
-                            : AdminProfilePage()),
+                            ? const AddEvent()
+                            : const AdminProfilePage()),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _selectedIndex,

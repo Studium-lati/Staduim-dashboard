@@ -11,11 +11,11 @@ class StadiumCard extends StatelessWidget {
   final String? titleboutton ;
 
   const StadiumCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.date,
     required this.imagePath, required this.location,  this.titleboutton,
-  }) : super(key: key);
+  });
 
   @override
 
@@ -45,30 +45,30 @@ class StadiumCard extends StatelessWidget {
                   children: [
                     Text(
                    title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text(
-                     "Date:"+ date,
+                     "Date:$date",
                       style: TextStyle(
                         fontSize: 14,
                         color: grayColor
                       ),
                     ),
                     Text(
-                     "Location::"+ location,
+                     "Location::$location",
                       style: TextStyle(
                         fontSize: 14,
                         color: grayColor
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                    
-                      Container(
+                      SizedBox(
                         width: getScreenSize(context).width * 0.27,
                         child: Mainbutton(text: titleboutton ?? ' View Details', ontap: (){}, backgroundColor: Colors.white,
                         textcolor: primaryColor,
@@ -86,7 +86,7 @@ class StadiumCard extends StatelessWidget {
             Expanded(
               flex: 1,
               child: ClipRRect(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10.0),
                 ),
                 child: Image.asset(

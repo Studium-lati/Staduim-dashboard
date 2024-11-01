@@ -18,10 +18,11 @@ class HomeCart extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
       BoxShadow(
+        // ignore: deprecated_member_use
         color: Colors.grey.withOpacity(0.2),
         spreadRadius: 3,
         blurRadius: 3,
-        offset: Offset(0, 3), 
+        offset: const Offset(0, 3), 
       ),
         ],  
       ),  
@@ -35,8 +36,8 @@ class HomeCart extends StatelessWidget {
           height: getScreenSize(context).height * 0.1,    
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.all(10.0),
+      const Padding(
+        padding: EdgeInsets.all(10.0),
         child: Align(
           alignment: Alignment.topLeft,
           child: Text(
@@ -53,7 +54,7 @@ class HomeCart extends StatelessWidget {
       Row(
         children: [
           Icon(Icons.attach_money,color: primaryColor,size: 30,),
-          Text("500",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          const Text("500",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         ],
       )
         ],

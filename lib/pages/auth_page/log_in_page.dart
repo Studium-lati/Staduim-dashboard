@@ -7,9 +7,8 @@ import 'package:dashbord/widgets/inputs/text_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 class LogInPage extends StatefulWidget {
-  LogInPage({super.key});
+  const LogInPage({super.key});
 
   @override
   State<LogInPage> createState() => _LogInPageState();
@@ -42,9 +41,9 @@ class _LogInPageState extends State<LogInPage> {
                   children: [
                     const SizedBox(height: 20),
                     Image.asset(
-                      'assets/logo.png',
-                      height: getScreenSize(context).height * 0.4,
-                      width: getScreenSize(context).width * 0.4,
+                      'assets/logo_remove.png',
+                      height: getScreenSize(context).height * 0.3,
+                      width: getScreenSize(context).width * 0.3,
                     ),
                     Text(
                       'Login here',
@@ -55,7 +54,6 @@ class _LogInPageState extends State<LogInPage> {
                         color: primaryColor,
                       ),
                     ),
-                 
                     const SizedBox(height: 20),
                     TextForm(
                         controller: _emailController,
@@ -64,10 +62,10 @@ class _LogInPageState extends State<LogInPage> {
                           if (value!.isEmpty) {
                             return 'Email or Phone is required';
                           }
-        
+
                           return null;
                         }),
-                    const SizedBox(height: 29),
+                    const SizedBox(height: 20),
                     TextForm(
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -76,7 +74,7 @@ class _LogInPageState extends State<LogInPage> {
                         if (value.length < 6) {
                           return 'Password must be at least 6 characters';
                         }
-        
+
                         return null;
                       },
                       controller: _passwordController,
@@ -104,40 +102,39 @@ class _LogInPageState extends State<LogInPage> {
                           color: primaryColor,
                         )),
                     const SizedBox(height: 30),
-                    Container(
+                    SizedBox(
                       height: getScreenSize(context).height * 0.07,
                       child: Mainbutton(
-                        text: 'Log in',
-                        textsize: 18,
-                        ontap: () {
-                          if (_formKey.currentState!.validate()) {
-                            Provider.of<AuthenProvider>(context, listen: false)
-                                .login({
-                              _emailController.text.contains('@')
-                                  ? 'email'
-                                  : 'phone': _emailController.text.toString(),
-                              'password': _passwordController.text.toString(),
-                            }
-                                ).then((value) {
-                                   if(value[0]){Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TabsScreen()));}
-                          else{
-                            print("Arjaa is ........ ");
-                          }
+                          text: 'Log in',
+                          textsize: 18,
+                          ontap: () {
+                            if (_formKey.currentState!.validate()) {
+                              Provider.of<AuthenProvider>(context,
+                                      listen: false)
+                                  .login({
+                                _emailController.text.contains('@')
+                                    ? 'email'
+                                    : 'phone': _emailController.text.toString(),
+                                'password': _passwordController.text.toString(),
+                              }).then((value) {
+                                if (value[0]) {
+                                  Navigator.pushAndRemoveUntil(
+                                      // ignore: use_build_context_synchronously
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TabsScreen()),
+                                      (Route<dynamic> route) => false);
+                                } else {
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(value[1].toString())));
                                 }
-                                
-                                );
-                              
-                              }
-                            
-                          }
-                        
-                      ),
+                              });
+                            }
+                          }),
                     ),
-                    
-                  
                   ],
                 ),
               ),

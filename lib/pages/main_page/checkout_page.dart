@@ -22,7 +22,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         builder: (context, reservationsConsumer, child) {
       return Scaffold(
         appBar: AppBar(
-          title: Text("Booking"),
+          title: const Text("Booking"),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -32,8 +32,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20),
                     child: Text(
                       "date",
                       style: TextStyle(
@@ -51,8 +51,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         reservationsConsumer.reservationsModel.date =
                             onDateChanged;
                       }),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, bottom: 15),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20, bottom: 15),
                     child: Text(
                       "Time",
                       style: TextStyle(
@@ -70,7 +70,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           context: context,
                           initialTime: TimeOfDay.fromDateTime(
                             DateTime.now().add(
-                              Duration(hours: 1),
+                              const Duration(hours: 1),
                             ),
                           ),
                           builder: (BuildContext context, Widget? child) {
@@ -99,7 +99,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 checkinTime = onValue;
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text(
                                         'Check-in time must be in the future'),
                                   ),
@@ -132,7 +132,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           context: context,
                           initialTime: TimeOfDay.fromDateTime(
                             DateTime.now().add(
-                              Duration(hours: 2),
+                              const Duration(hours: 2),
                             ),
                           ),
                           builder: (BuildContext context, Widget? child) {
@@ -153,7 +153,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               checkoutTime = onValue;
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text(
                                       'Checkout time must be after check-in time'),
                                 ),
@@ -177,7 +177,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Padding(

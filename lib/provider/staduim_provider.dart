@@ -3,24 +3,20 @@ import 'package:dashbord/models/staduim_model.dart';
 import 'package:dashbord/provider/base_provider.dart';
 import 'package:http/http.dart';
 
-
 class StaduimProvider extends BaseProvider {
   List<StadiumsModel> stadiums = [];
-  List<StadiumsModel> beststadiums = [];
-  int? selectedStadiumId;
-
-  
+  StadiumsModel? currentStaduim;
   Future getStaduim() async {
     stadiums.clear();
     setLoading(true);
     setError(false);
-    Response response = await api.get("stadiums");
+    Response response = await api.get("stadiums/owner");
     if (response.statusCode == 200) {
-      var data = json.decode(response.body)['data'];
+      var data = json.decode(response.body);
       for (var item in data) {
         stadiums.add(StadiumsModel.fromJson(item));
       }
-selectedStadiumId = stadiums[0].id;
+      currentStaduim = stadiums[0];
       setLoading(false);
       setError(false);
     } else {
@@ -28,5 +24,4 @@ selectedStadiumId = stadiums[0].id;
       setError(true);
     }
   }
-  
 }

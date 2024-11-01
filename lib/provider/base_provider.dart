@@ -14,14 +14,14 @@ class BaseProvider extends ChangeNotifier {
   bool get isError => _isError;
 
   void setLoading(bool value) {
-    Timer(Duration(milliseconds: 50), () {
+    Timer(const Duration(milliseconds: 50), () {
       _isLoading = value;
       notifyListeners();
     });
   }
 
   void setError(bool value) {
-    Timer(Duration(milliseconds: 50), () {
+    Timer(const Duration(milliseconds: 50), () {
       _isError = value;
       notifyListeners();
     });
